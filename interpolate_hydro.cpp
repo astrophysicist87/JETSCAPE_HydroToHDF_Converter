@@ -28,6 +28,8 @@ int main(int argc, char ** argv)
 
 	// set filename and load data
 	string filename = argv[1];
+
+	vector<vector<double> > points;
 	read_in_data(points, filename, 1);
 
 	// set grid for interpolation
