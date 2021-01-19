@@ -47,16 +47,16 @@ void readFromFile(vector<vector<double> > *points) {
 		//file >> data;
   }
 
-cout << "V.size() = " << V.size() << endl;
+//cout << "V.size() = " << V.size() << endl;
 
-	int idx = 0;
+	/*int idx = 0;
 	for ( int iRow = 0; iRow < V.size(); iRow++ )
 	{
 		assert ( idx++ < 10 );
 		for ( int iCol = 0; iCol < (V[iRow]).size(); iCol++ )
 			cout << V[iRow][iCol] << "   ";
 		cout << endl;
-	}
+	}*/
 
 	*points = V;
 
@@ -70,7 +70,7 @@ bool sortcol( const vector<double>& v1, const vector<double>& v2 ) {
 double interpolation(vector<vector<double> > points, double x, double y) {
   //the first col is x axis, the second col is y axis
 
-cout << "points.size() = " << points.size() << endl;
+//cout << "points.size() = " << points.size() << endl;
 
   for(int k = 0; k < 50205;k++) {
 //cout << "k = " << k << endl;
