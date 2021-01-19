@@ -45,6 +45,18 @@ void readFromFile(vector<vector<double> > *points) {
     index++;
   }
 
+cout << "V.size() = " << V.size() << endl;
+
+	int idx = 0;
+	for ( const auto & row : v )
+	{
+		assert ( idx++ < 100 );
+		outfile << setw(12) << setprecision(8);
+		for ( const auto & column : row )
+			outfile << column << "   ";
+		outfile << endl;
+	}
+
 	*points = V;
 
   file.close();
@@ -60,7 +72,7 @@ double interpolation(vector<vector<double> > points, double x, double y) {
 cout << "points.size() = " << points.size() << endl;
 
   for(int k = 0; k < 50205;k++) {
-cout << "k = " << k << endl;
+//cout << "k = " << k << endl;
     (points)[k][6] = sqrt(pow(points[k][0]-x,2)+pow(points[k][1]-y,2));//distance
     if((points)[k][2] == 0 || points[k][3] < 0.15) {
       (points)[k][6] = 101; //if energy = 0, set distance to be large enough to eliminate the influence
