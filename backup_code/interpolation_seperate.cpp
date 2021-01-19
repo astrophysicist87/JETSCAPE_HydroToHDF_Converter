@@ -34,8 +34,8 @@ void readFromFile(vector<vector<double> > *points) {
   assert (!file.fail( ));
 
   while (!file.eof( ))  {
-		file >> data;
     if(index%7 != 0) {
+		file >> data;
 			one_row.push_back(data);
     }else if(index%7 == 0) {
 			one_row.push_back(0);
