@@ -58,6 +58,7 @@ double interpolation(vector<vector<double> > points, double x, double y) {
   //the first col is x axis, the second col is y axis
 
   for(int k = 0; k < 50205;k++) {
+cout << "k = " << k << endl;
     (points)[k][6] = sqrt(pow(points[k][0]-x,2)+pow(points[k][1]-y,2));//distance
     if((points)[k][2] == 0 || points[k][3] < 0.15) {
       (points)[k][6] = 101; //if energy = 0, set distance to be large enough to eliminate the influence
