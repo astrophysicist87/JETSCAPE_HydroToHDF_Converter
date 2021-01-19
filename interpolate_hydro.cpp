@@ -27,7 +27,7 @@ int main(int argc, char ** argv)
 	assert( argc > 1 );
 
 	// set filename and load data
-	string filename = to_string(argv[1]);
+	string filename = argv[1];
 	read_in_data(points, filename, 1);
 
 	// set grid for interpolation
