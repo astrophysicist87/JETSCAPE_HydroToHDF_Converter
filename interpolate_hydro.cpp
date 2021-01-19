@@ -29,6 +29,7 @@ int main(int argc, char ** argv)
 	if ( argc < 2 )
 	{
 		cout << "// No command line argument passed --> running in test mode" << endl;
+		vector<vector<double> > points;
 		read_in_data(points, "backup_code/data8_ev1.dat", 1);
 		vector<double> testPoint (6);
 		testPoint[0] = 0.504858;
@@ -47,8 +48,8 @@ int main(int argc, char ** argv)
 	// set filename and load data
 	string filename = argv[1];
 
-	vector<vector<double> > points;
 	cout << endl << " - Reading in data from " << filename << endl;
+	vector<vector<double> > points;
 	read_in_data(points, filename, 1);
 
 	// set grid for interpolation
