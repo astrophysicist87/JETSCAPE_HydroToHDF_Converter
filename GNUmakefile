@@ -12,7 +12,7 @@
 
 # Set compiler and flags
 CC := g++
-CFLAGS= -std=c++11 -lgsl -lgslcblas -lm
+CFLAGS= -std=c++14 -lgsl -lgslcblas -lm
 
 # Various directories and definitions
 RM          =   rm -f

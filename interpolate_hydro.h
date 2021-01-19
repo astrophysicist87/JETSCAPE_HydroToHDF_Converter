@@ -52,7 +52,7 @@ bool sortByDistance( const vector<double> & v1, const vector<double> & v2 ) {
 }
 
 
-void interpolation(vector<vector<double> > & points, vector<double> & outPoint)
+void interpolate(vector<vector<double> > & points, vector<double> & outPoint)
 {
 	double x = outPoint[0];
 	double y = outPoint[1];

@@ -37,7 +37,7 @@ void output_to_HDF( const vector<vector<double> > & v, string outfilename )
 	const H5std_string	FILE_NAME(outfilename.c_str());
 	const H5std_string	DATASET_NAME("hydro");
 	const int	 NX = v.size();
-	const int	 NY = (v.begin()).size();
+	const int	 NY = (v[0]).size();
 	const int	 RANK = 2;
 
 	double data[NX][NY];
@@ -63,19 +63,19 @@ void output_to_HDF( const vector<vector<double> > & v, string outfilename )
 
     catch(FileIException error)
     {
-		error.printErrorStack();
+		error.printError();
 		return;
     }
 
     catch(DataSetIException error)
     {
-		error.printErrorStack();
+		error.printError();
 		return;
     }
 
     catch(DataSpaceIException error)
     {
-		error.printErrorStack();
+		error.printError();
 		return;
     }
 }
