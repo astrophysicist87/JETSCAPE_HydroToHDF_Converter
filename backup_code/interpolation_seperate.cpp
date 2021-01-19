@@ -23,25 +23,26 @@ using namespace std::chrono;
 void readFromFile(vector<vector<double> > *points) {
   std::ifstream file;
   file.open("data8_ev1.dat");
-  double data;
+  double data, dummy;
   vector<double> one_row;
 	vector<double> empty;
 	std::vector<std::vector<double> > V;
 
   int index = 1;
-  file >> data;
-	file >> data;
+  file >> dummy;
+	file >> dummy;
   assert (!file.fail( ));
 
   while (!file.eof( ))  {
-    if(index%7 != 0) {
+		file >> data;
+    if(index%6 != 0) {
 			one_row.push_back(data);
-    }else if(index%7 == 0) {
+    }else if(index%6 == 0) {
 			one_row.push_back(0);
 			V.push_back(one_row);
 			one_row = empty;
     }
-		file >> data;
+		//file >> data;
     index++;
   }
 
