@@ -51,10 +51,9 @@ cout << "V.size() = " << V.size() << endl;
 	for ( int iRow = 0; iRow < V.size(); iRow++ )
 	{
 		assert ( idx++ < 10 );
-		outfile << setw(12) << setprecision(8);
 		for ( int iCol = 0; iCol < (V[iRow]).size(); iCol++ )
-			outfile << V[iRow][iCol] << "   ";
-		outfile << endl;
+			cout << V[iRow][iCol] << "   ";
+		cout << endl;
 	}
 
 	*points = V;
