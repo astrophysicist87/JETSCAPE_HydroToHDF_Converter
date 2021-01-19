@@ -41,6 +41,7 @@ void readFromFile(vector<vector<double> > *points) {
 			one_row.push_back(0);
 			V.push_back(one_row);
 			one_row = empty;
+			index=1;
     }
 		//file >> data;
     index++;
