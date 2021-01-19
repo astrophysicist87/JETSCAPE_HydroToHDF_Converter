@@ -48,12 +48,12 @@ void readFromFile(vector<vector<double> > *points) {
 cout << "V.size() = " << V.size() << endl;
 
 	int idx = 0;
-	for ( const auto & row : v )
+	for ( int iRow = 0; iRow < V.size(); iRow++ )
 	{
-		assert ( idx++ < 100 );
+		assert ( idx++ < 10 );
 		outfile << setw(12) << setprecision(8);
-		for ( const auto & column : row )
-			outfile << column << "   ";
+		for ( int iCol = 0; iCol < (V[iRow]).size(); iCol++ )
+			outfile << V[iRow][iCol] << "   ";
 		outfile << endl;
 	}
 
