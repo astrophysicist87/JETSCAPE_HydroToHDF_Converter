@@ -34,17 +34,17 @@ void readFromFile(vector<vector<double> > *points) {
   assert (!file.fail( ));
 
   while (!file.eof( ))  {
-    if(index%6 != 0) {
+    if(index%7 != 0) {
 		file >> data;
 			one_row.push_back(data);
-    }else if(index%6 == 0) {
+    index++;
+    }else if(index%7 == 0) {
 			one_row.push_back(0);
 			V.push_back(one_row);
 			one_row = empty;
 			index=1;
     }
 		//file >> data;
-    index++;
   }
 
 cout << "V.size() = " << V.size() << endl;
