@@ -10,8 +10,13 @@
 ##			distclean	remove all binaries
 ##  
 
+# HDF5 flags
+export HDF5_CXX=$(which g++)
+export HDF5_CXXLINKER=$(which g++)
+export HDF5_CLINKER=$(which g++)
+
 # Set compiler and flags
-CC := g++
+CC := h5c++
 CFLAGS= -std=c++14 -lgsl -lgslcblas -lm
 
 # Various directories and definitions
