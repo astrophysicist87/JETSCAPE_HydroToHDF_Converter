@@ -26,13 +26,19 @@ int main(int argc, char ** argv)
 	// make sure at least a filename was passed
 	assert( argc > 1 );
 
+	cout << "////////////////////////////////////////////////////////////////////" << endl;
+	cout << "// Conversion and interpolation of v-USPhydro files to HDF format //" << endl;
+	cout << "////////////////////////////////////////////////////////////////////" << endl;
+
 	// set filename and load data
 	string filename = argv[1];
 
 	vector<vector<double> > points;
+	cout << endl << " - Reading in data from " << filename << endl;
 	read_in_data(points, filename, 1);
 
 	// set grid for interpolation
+	cout << endl << " - Generating grid for interpolation" << endl;
 	const double xmin = -10.0, ymin = -10.0;
 	const double dx = 0.1, dy = 0.1;
 	const int xGridSize = 201, yGridSize = 201;
@@ -41,6 +47,7 @@ int main(int argc, char ** argv)
 	generate(yGrid.begin(), yGrid.end(), [n = 0, &ymin, &dy] () mutable { return ymin + dy * n++; });
 
 	// set up output grid and do the interpolation
+	cout << endl << " - Performing interpolation" << endl;
 	vector<vector<double> > outputGrid( xGridSize*yGridSize, vector<double> ( 6 ) );
 	int idx = 0;
 	for ( int ix = 0; ix < xGridSize; ix++ )
@@ -49,11 +56,16 @@ int main(int argc, char ** argv)
 		outputGrid[idx][0] = xGrid[ix];
 		outputGrid[idx][1] = yGrid[iy];
 		interpolate( points, outputGrid[idx] );
+		idx++;
 	}
 
 	// output to both dat and HDF files...
+	cout << endl << " - Outputting to *.dat file" << endl;
 	output_to_dat( outputGrid, "output.dat" );
+
+	cout << endl << " - Outputting to *.hdf file" << endl;
 	output_to_HDF( outputGrid, "output.h5" );
 
+	cout << endl << " - Finished everything!" << endl;
 	return 0;
 }
