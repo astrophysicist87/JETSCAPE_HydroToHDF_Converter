@@ -24,7 +24,21 @@ using namespace std;
 int main(int argc, char ** argv)
 {
 	// make sure at least a filename was passed
-	assert( argc > 1 );
+	//assert( argc > 1 );
+
+	if ( argc < 2 )
+	{
+		cout << "// No command line argument passed --> running in test mode" << endl;
+		read_in_data(points, "backup_code/data8_ev1.dat", 1);
+		vector<double> testPoint (6);
+		testPoint[0] = 0.504858;
+		testPoint[1] = 6.58063;
+		interpolate( points, testPoint );
+		cout << "Results: ";
+		for ( const auto & c : testPoint ) cout << c << "   ";
+		cout << endl;
+		return 0;
+	}
 
 	cout << "////////////////////////////////////////////////////////////////////" << endl;
 	cout << "// Conversion and interpolation of v-USPhydro files to HDF format //" << endl;
