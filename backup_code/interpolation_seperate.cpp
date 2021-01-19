@@ -57,6 +57,8 @@ bool sortcol( const vector<double>& v1, const vector<double>& v2 ) {
 double interpolation(vector<vector<double> > points, double x, double y) {
   //the first col is x axis, the second col is y axis
 
+cout << "points.size() = " << points.size() << endl;
+
   for(int k = 0; k < 50205;k++) {
 cout << "k = " << k << endl;
     (points)[k][6] = sqrt(pow(points[k][0]-x,2)+pow(points[k][1]-y,2));//distance
