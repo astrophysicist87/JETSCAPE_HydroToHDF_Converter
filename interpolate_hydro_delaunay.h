@@ -103,7 +103,7 @@ class Delaunay2D
 //cout << "Number of faces = " << faces.size() << endl;
 
 			// associate vertices to the faces that contain them
-			face_indices( vertices.size() );
+			face_indices.resize( vertices.size() );
 			for ( int iFace = 0 ; iFace < faces.size(); iFace++ )
 			for ( int iVertex = 0 ; iVertex < 3; iVertex++ )
 				face_indices[ faces[iFace][iVertex] ].push_back( iFace );
