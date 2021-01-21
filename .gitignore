@@ -5,3 +5,5 @@
 *.dat
 *.h5
 *.tmp
+*.txt
+*.exe.stackdump
