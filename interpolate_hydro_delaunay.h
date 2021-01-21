@@ -99,11 +99,16 @@ class Delaunay2D
 			// generate grid itself
 			int success = generate_delaunay_2d( vertices, faces );
 
+cout << "Number of vertices = " << vertices.size() << endl;
+cout << "Number of faces = " << faces.size() << endl;
+
 			// associate vertices to the faces that contain them
 			vector<vector<int> > face_indices( vertices.size() );
 			for ( int iFace = 0 ; iFace < faces.size(); iFace++ )
 			for ( int iVertex = 0 ; iVertex < 3; iVertex++ )
 				face_indices[ faces[iFace][iVertex] ].push_back( iFace );
+cout << "face_indices.size() = " << face_indices.size() << endl;
+
 
 			return;
 		}
@@ -152,6 +157,8 @@ class Delaunay2D
 				// convex hull entirely
 				bool no_solution_found_yet = true;
 				vector<double> point = { x0, y0 };
+cout << "face_indices.size() = " << face_indices.size() << endl;
+cout << "iClosestVertex = " << iClosestVertex << endl;
 				for ( const auto & face_index : face_indices[ iClosestVertex ] )
 				{
 					// look at next face
