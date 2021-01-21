@@ -61,7 +61,8 @@ void interpolate(vector<vector<double> > & points, vector<double> & outPoint)
 	for ( auto & point : points )
 	{
 		double dx = point[0]-x, dy = point[1]-y;
-		point[6] = sqrt(dx*dx+dy*dy);	//distance
+		//point[6] = sqrt(dx*dx+dy*dy);	//distance
+		point[6] = dx*dx+dy*dy;	//distance^2
 		if (point[2] < EPS || point[3] < 0.15)
 		{
 			point[6] = INF; //if energy = 0, set distance to be large enough to eliminate the influence
