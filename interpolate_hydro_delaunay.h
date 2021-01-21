@@ -116,6 +116,9 @@ class Delaunay2D
 
 		void interpolate(vector<vector<double> > & points, vector<double> & outPoint)
 		{
+			double x0 = outPoint[0];
+			double y0 = outPoint[1];
+
 			// find closest vertex to chosen point
 			int iClosestVertex = 0;
 			double closestDistance2 = d2( vertices[0][0], vertices[0][1], x0, y0 );
