@@ -32,7 +32,8 @@ MAIN		 =	interpolate_hydro
 MAIN2		 =	interpolate_hydro_delaunay
 
 MAINSRC      =  interpolate_hydro.cpp
-MAINSRC2     =  interpolate_hydro_delaunay.cpp
+MAINSRC2     =  interpolate_hydro_delaunay.cpp \
+				delaunay/table_delaunay.cpp
 
 INC			 = 	interpolate_hydro.h \
 				output.h
@@ -70,3 +71,4 @@ distclean:
 interpolate_hydro.cpp:             interpolate_hydro.h output.h
 interpolate_hydro_delaunay.cpp:    interpolate_hydro_delaunay.h output.h \
                                    delaunay/table_delaunay.h
+delaunay/table_delaunay.cpp:       delaunay/table_delaunay.h
