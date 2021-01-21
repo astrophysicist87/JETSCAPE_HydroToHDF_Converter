@@ -83,25 +83,27 @@ void interpolate(vector<vector<double> > & points, vector<double> & outPoint)
 	
 	for( int i = 0; i < num; i++)
 	{
+		const auto point = points[i];
+
 		// if the distance is 0, which means they are the same point,
 		// copy all the info instead of doing interpolation
-		if (points[i][6] == 0)
+		if (point[6] < EPS)
 		{
-			totaltemp   = points[i][3];
-			totalvinx   = points[i][4];
-			totalviny   = points[i][5];
-			totalenergy = points[i][2];
+			totaltemp   = point[3];
+			totalvinx   = point[4];
+			totalviny   = point[5];
+			totalenergy = point[2];
 			break;
 		}
 		else
 		{
-			// f += pow(1.0 / points[i][3], r);
-			double rate  = 1.0 / points[i][6];
+			// f += pow(1.0 / point[3], r);
+			double rate  = 1.0 / point[6];
 			totalrate   += rate;
-			totalenergy += points[i][2] * rate;
-			totaltemp   += points[i][3] * rate;
-			totalvinx   += points[i][4] * rate;
-			totalviny   += points[i][5] * rate;
+			totalenergy += point[2] * rate;
+			totaltemp   += point[3] * rate;
+			totalvinx   += point[4] * rate;
+			totalviny   += point[5] * rate;
 		}
 	}
 	
