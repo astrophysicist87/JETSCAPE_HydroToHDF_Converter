@@ -57,6 +57,11 @@ class Delaunay2D
 		ostream & out;
 		ostream & err;
 
+		inline double d2( double x, double y, double x0, double y0 )
+		{
+			return ( ( x - x0 )*( x - x0 ) + ( y - y0 )*( y - y0 ) );
+		}
+
 		inline double sign( const vector<double> & p1, const vector<double> & p2, const vector<double> & p3 )
 		{
 		    return (p1[0] - p3[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p3[1]);
