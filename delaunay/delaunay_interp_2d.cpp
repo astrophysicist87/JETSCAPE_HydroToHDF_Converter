@@ -127,17 +127,17 @@ int main(int argc, char *argv[])
 			vector<double> v0 = vertices[face[0]];
 			vector<double> v1 = vertices[face[1]];
 			vector<double> v2 = vertices[face[2]];
-cout << "Checking face #" << face_index << ":" << endl;
-cout << " --> v0: " << v0[0] << "   " << v0[1] << endl;
-cout << " --> v1: " << v1[0] << "   " << v1[1] << endl;
-cout << " --> v2: " << v2[0] << "   " << v2[1] << endl << endl;
+			cout << "Checking face #" << face_index << ":" << endl;
+			cout << " --> v0: " << v0[0] << "   " << v0[1] << endl;
+			cout << " --> v1: " << v1[0] << "   " << v1[1] << endl;
+			cout << " --> v2: " << v2[0] << "   " << v2[1] << endl << endl;
 			if ( pointInTriangle( point, v0, v1, v2 ) )
 			{
 				v0.push_back( values[ face[0] ] );
 				v1.push_back( values[ face[1] ] );
 				v2.push_back( values[ face[2] ] );
 
-cout << "Check values: " << v0[2] << "   " << v1[2] << "   " << v2[2] << endl;
+				cout << "Check values: " << v0[2] << "   " << v1[2] << "   " << v2[2] << endl;
 
 				cout << "Result = " << basic_interp( point, v0, v1, v2 ) << endl;
 

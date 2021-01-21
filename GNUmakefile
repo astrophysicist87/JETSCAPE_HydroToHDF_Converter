@@ -29,32 +29,44 @@ SYSTEMFILES =   $(SRCGNU)
 # --------------- Files involved ------------------
 
 MAIN		 =	interpolate_hydro
+MAIN2		 =	interpolate_hydro_delaunay
 
 MAINSRC      =  interpolate_hydro.cpp
+MAINSRC2     =  interpolate_hydro_delaunay.cpp
 
 INC			 = 	interpolate_hydro.h \
+				output.h
+INC2		 = 	interpolate_hydro_delaunay.h \
+				delaunay/table_delaunay.h \
 				output.h
 
 # -------------------------------------------------
 
 TARGET		=	$(MAIN)
+TARGET2		=	$(MAIN2)
 
 # --------------- Pattern rules -------------------
 
 $(TARGET):
-	$(CC) $(MAINSRC) -o $(TARGET) $(CFLAGS) $(INCFLAGS)  $(LDFLAGS)
+	$(CC) $(MAINSRC) -o $(TARGET) $(CFLAGS) $(INCFLAGS) $(LDFLAGS)
+
+$(TARGET2):
+	$(CC) $(MAINSRC2) -o $(TARGET2) $(CFLAGS) $(INCFLAGS) $(LDFLAGS)
 
 # -------------------------------------------------
 
 .PHONY:		all help distclean
 
-all:		$(TARGET)
+all:		$(TARGET) $(TARGET2)
 
 help:
 		@grep '^##' GNUmakefile
 
 distclean:	
 		-rm $(TARGET)
+		-rm $(TARGET2)
 
 # --------------- Dependencies -------------------
-interpolate_hydro.cpp:         interpolate_hydro.h output.h
+interpolate_hydro.cpp:             interpolate_hydro.h output.h
+interpolate_hydro_delaunay.cpp:    interpolate_hydro_delaunay.h output.h \
+                                   delaunay/table_delaunay.h
