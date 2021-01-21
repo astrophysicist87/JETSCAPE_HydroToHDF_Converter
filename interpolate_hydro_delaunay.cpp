@@ -94,10 +94,10 @@ int main(int argc, char ** argv)
 
 	// output to both dat and HDF files...
 	cout << endl << " - Outputting to output.dat" << endl;
-	output_to_dat( outputGrid, "output.dat" );
+	output_to_dat( outputGrid, "output_delaunay.dat" );
 
 	cout << endl << " - Outputting to output.h5" << endl;
-	output_to_HDF( outputGrid, "output.h5" );
+	output_to_HDF( outputGrid, "output_delaunay.h5" );
 
 	cout << endl << " - Finished everything!" << endl;
 	return 0;
