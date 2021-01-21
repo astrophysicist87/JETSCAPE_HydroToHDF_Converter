@@ -97,7 +97,7 @@ class Delaunay2D
 			value_fields = value_fields_in;
 
 			// generate grid itself
-			generate_delaunay_2d( vertices, faces );
+			int success = generate_delaunay_2d( vertices, faces );
 
 			// associate vertices to the faces that contain them
 			vector<vector<int> > face_indices( vertices.size() );
