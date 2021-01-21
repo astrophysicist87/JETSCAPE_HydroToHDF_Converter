@@ -17,7 +17,7 @@ export HDF5_CLINKER=$(which g++)
 
 # Set compiler and flags
 CC := h5c++
-CFLAGS= -std=c++14 -lgsl -lgslcblas -lm
+CFLAGS= -g -std=c++14 -lgsl -lgslcblas -lm
 
 # Various directories and definitions
 RM          =   rm -f

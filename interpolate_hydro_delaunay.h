@@ -119,7 +119,7 @@ class Delaunay2D
 					{ initialize_all( vertices_in, value_fields_in ); };
 
 
-		void interpolate(vector<vector<double> > & points, vector<double> & outPoint)
+		void interpolate( vector<double> & outPoint )
 		{
 			double x0 = outPoint[0];
 			double y0 = outPoint[1];
@@ -189,6 +189,7 @@ class Delaunay2D
 						break;
 					}
 				}
+
 				if ( no_solution_found_yet )
 				{
 					//cout << "Result is out of bounds!" << endl;

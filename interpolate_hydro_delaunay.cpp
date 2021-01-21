@@ -88,7 +88,7 @@ int main(int argc, char ** argv)
 	{
 		outputGrid[idx][0] = xGrid[ix];
 		outputGrid[idx][1] = yGrid[iy];
-		interpolationGrid.interpolate( points, outputGrid[idx] );
+		interpolationGrid.interpolate( outputGrid[idx] );
 		idx++;
 	}
 
