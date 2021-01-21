@@ -71,8 +71,8 @@ void interpolate(vector<vector<double> > & points, vector<double> & outPoint)
 	}
 	
 	// partial sort only smallest 8 distances
-	//sort(points.begin(),points.end(),sortcol);
-	std::nth_element( points.begin(), points.begin() + 7, points.end(), sortByDistance );
+	sort(points.begin(), points.end(), sortByDistance);
+	//std::nth_element( points.begin(), points.begin() + 7, points.end(), sortByDistance );
 	
 	int num = 8;
 	double totalrate   = 0;
