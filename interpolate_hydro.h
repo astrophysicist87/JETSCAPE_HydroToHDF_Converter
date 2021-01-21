@@ -83,7 +83,7 @@ void interpolate(vector<vector<double> > & points, vector<double> & outPoint)
 	
 	for( int i = 0; i < num; i++)
 	{
-		const auto point = points[i];
+		const auto & point = points[i];
 
 		// if the distance is 0, which means they are the same point,
 		// copy all the info instead of doing interpolation
