@@ -185,9 +185,9 @@ class Delaunay2D
 
 						for (int iField = 0; iField < 4; iField++)
 						{
-							v0[2] = value_fields[iField][ face[0] ];
-							v1[2] = value_fields[iField][ face[1] ];
-							v2[2] = value_fields[iField][ face[2] ];
+							v0[2] = value_fields[ face[0] ][iField];
+							v1[2] = value_fields[ face[1] ][iField];
+							v2[2] = value_fields[ face[2] ][iField];
 
 							outPoint[iField+2] = basic_interp( point, v0, v1, v2 );
 						}
