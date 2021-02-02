@@ -98,7 +98,7 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
     {
 		Exception::dontPrint();
 	
-		//H5File file(FILE_NAME, H5F_ACC_TRUNC);
+		H5File file(FILE_NAME, H5F_ACC_TRUNC);
 		//H5File* file = new H5File(FILE_NAME, H5F_ACC_TRUNC);
 	
     	//Group group = file.createGroup( "/" );
@@ -106,10 +106,16 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
     	//Group* group = new Group( file->createGroup( "/" ) );
     	//Group* eventGroup = new Group( file.createGroup( "/EVENT" ) );
 
-		//double DX = 0.1;
-		//DataSpace dspace(H5T_IEEE_F64LE);
-		//Attribute* att = new Attribute( group->createAttribute("DX", PredType::NATIVE_DOUBLE, dspace ) );
-		//att->write(PredType::NATIVE_DOUBLE, &DX);
+		Group groupEvent(file.createGroup("/EVENT"));
+
+
+		double DX = 0.1;
+		DataSpace dspace(H5T_IEEE_F64LE);
+		Attribute att = groupEvent.createAttribute("DX", PredType::NATIVE_DOUBLE, dspace );
+		att.write(PredType::NATIVE_DOUBLE, &DX);
+
+		//DataSpace dspace(H5S_SCALAR);
+
 		/*ATTRIBUTE "DX" {
          DATATYPE  H5T_IEEE_F64LE
          DATASPACE  SIMPLE { ( 1 ) / ( 1 ) }
@@ -123,20 +129,7 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 	
 		DataSet dataset = file.createDataSet(DATASET_NAME, PredType::NATIVE_DOUBLE, dataspace);
 			
-		dataset.write(data, PredType::NATIVE_DOUBLE);*/
-
-
-
-		//Create a new file using default properties
-		H5File file("NewH5.h5", H5F_ACC_TRUNC);
-
-		//Create PLATFORM_t and SONAR_t groups in the file
-		Group groupPlatform(file.createGroup("/PLATFORM_t"));
-	
-		double value=42;
-		DataSpace dspace(H5S_SCALAR);
-		Attribute att = groupPlatform.createAttribute("some_attribute",PredType::NATIVE_DOUBLE,dspace);
-		att.write(PredType::NATIVE_DOUBLE,&value);
+		dataset.write(data, PredType::NATIVE_DOUBLE);*/	
     }
 
     catch(FileIException error)
