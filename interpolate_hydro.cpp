@@ -18,6 +18,7 @@
 
 #include "interpolate_hydro.h"
 #include "output.h"
+#include "JETSCAPE_output_to_HDF.h"
 
 using namespace std;
 

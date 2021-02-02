@@ -36,7 +36,8 @@ MAINSRC2     =  interpolate_hydro_delaunay.cpp \
 				delaunay/table_delaunay.cpp
 
 INC			 = 	interpolate_hydro.h \
-				output.h
+				output.h \
+				JETSCAPE_output_to_HDF.h
 INC2		 = 	interpolate_hydro_delaunay.h \
 				delaunay/table_delaunay.h \
 				output.h
@@ -68,7 +69,7 @@ distclean:
 		-rm $(TARGET2)
 
 # --------------- Dependencies -------------------
-interpolate_hydro.cpp:             interpolate_hydro.h output.h
+interpolate_hydro.cpp:             interpolate_hydro.h output.h JETSCAPE_output_to_HDF.h
 interpolate_hydro_delaunay.cpp:    interpolate_hydro_delaunay.h output.h \
                                    delaunay/table_delaunay.h
 delaunay/table_delaunay.cpp:       delaunay/table_delaunay.h
