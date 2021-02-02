@@ -100,15 +100,15 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 	
 		H5File file(FILE_NAME, H5F_ACC_TRUNC);
 	
-    	Group group = file.createGroup( "/" );
-    	Group eventGroup = file.createGroup( "/EVENT" );
-    	//Group* group = new Group( file->createGroup( "/" ) );
-    	//Group* eventGroup = new Group( file->createGroup( "/EVENT" ) );
+    	//Group group = file.createGroup( "/" );
+    	//Group eventGroup = file.createGroup( "/EVENT" );
+    	Group* group = new Group( file->createGroup( "/" ) );
+    	Group* eventGroup = new Group( file->createGroup( "/EVENT" ) );
 
 		double DX = 0.1;
 		DataSpace dspace(H5T_IEEE_F64LE);
-		Attribute att = eventGroup.createAttribute("DX", PredType::NATIVE_DOUBLE, dspace);
-		att.write(PredType::NATIVE_DOUBLE, &DX);
+		Attribute* att = new Attribute( eventGroup->createAttribute("DX", PredType::NATIVE_DOUBLE, dspace ) );
+		att->write(PredType::NATIVE_DOUBLE, &DX);
 		/*ATTRIBUTE "DX" {
          DATATYPE  H5T_IEEE_F64LE
          DATASPACE  SIMPLE { ( 1 ) / ( 1 ) }
