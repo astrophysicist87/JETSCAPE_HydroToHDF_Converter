@@ -34,16 +34,16 @@ int main(int argc, char ** argv)
 	// set grid for interpolation
 	//cout << endl << " - Generating grid for interpolation" << endl;
 	const double xmin = -10.0, ymin = -10.0;
-	const double dx = 0.1, dy = 0.1;
-	const int xGridSize = 201, yGridSize = 201;
+	const double dx = 1.0, dy = 1.0;
+	const int xGridSize = 21, yGridSize = 21;
 	vector<double> xGrid(xGridSize), yGrid(yGridSize);
 	generate(xGrid.begin(), xGrid.end(), [n = 0, &xmin, &dx] () mutable { return xmin + dx * n++; });
 	generate(yGrid.begin(), yGrid.end(), [n = 0, &ymin, &dy] () mutable { return ymin + dy * n++; });
 
 	// set up HDF5 stuff
-	const H5std_string	FILE_NAME("output.h5");
-	const int	 NX = xGridSize*yGridSize;
-	const int	 NY = 6;
+	const H5std_string FILE_NAME("output.h5");
+	const double DX = dx, DY = dy, tau = 0.048, tauFS = 1.2, dTau = 0.072;
+	const int OutputViscousFlag = 1, XH = 53, XL = -53, YH = 53, YL = -53;
 
 	try
     {
@@ -51,31 +51,21 @@ int main(int argc, char ** argv)
 	
 		H5File file(FILE_NAME, H5F_ACC_TRUNC);
 		Group groupEvent(file.createGroup("/Event"));
-		output_attributes( groupEvent );	// add attributes later
+		output_attributes( groupEvent, DX, DY, OutputViscousFlag, Tau0, TauFS,
+							XH, XL, YH, YL, dTau );
 
 		// eventually loop over files and read in one at a time
 		{
 			// set filename and load data
 			string filename = argv[1];
 			
+			// outputGrid contains data from filename, interpolated to grid
+			// defined by xGrid (x) yGrid
 			vector<vector<double> > outputGrid;
 			interpolate_hydro_driver( filename, outputGrid, xGrid, yGrid );		
 
-			double data[NX][NY];
-			for (int ix = 0; ix < NX; ix++)
-			for (int iy = 0; iy < NY; iy++)
-				data[ix][iy] = outputGrid[ix][iy];
-
-			Group groupFrame(file.createGroup("/Event/Frame_0000"));
-			hsize_t dims[2];
-			dims[0] = NX;
-			dims[1] = NY;
-			DataSpace dataspace(2, dims);
-		
-			DataSet dataset = groupFrame.createDataSet("/Event/Frame_0000/hydroCheck",
-														PredType::NATIVE_DOUBLE, dataspace);
-				
-			dataset.write(data, PredType::NATIVE_DOUBLE);
+			// send outputGrid to HDF file
+			output_dataset( file, outputGrid );
 		}
 
 	}

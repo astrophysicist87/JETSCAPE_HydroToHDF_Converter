@@ -16,24 +16,30 @@
     using namespace H5;
 #endif
 
-void output_attribute(Group & groupEvent)
+void output_double_attribute(Group & groupEvent, double value, string name)
 {
-	double DX = 0.1;
-	const int RANK = 1;
-	hsize_t dims[RANK];
-	dims[0] = 1;
-	DataSpace dspace(RANK, dims);
-	Attribute att = groupEvent.createAttribute("DX", PredType::NATIVE_DOUBLE, dspace );
-	att.write(PredType::NATIVE_DOUBLE, &DX);
+	hsize_t dims[1]; dims[0] = 1;
+	DataSpace dspace(1, dims);
+	Attribute att = groupEvent.createAttribute(name.c_str(), PredType::NATIVE_DOUBLE, dspace );
+	att.write(PredType::NATIVE_DOUBLE, &value);
+
+	return;
+}
+
+void output_int_attribute(Group & groupEvent, double value, string name)
+{
+	hsize_t dims[1]; dims[0] = 1;
+	DataSpace dspace(1, dims);
+	Attribute att = groupEvent.createAttribute(name.c_str(), PredType::NATIVE_INT, dspace );
+	att.write(PredType::NATIVE_INT, &value);
 
 	return;
 }
 
 void output_attributes(
-		Group & groupEvent
-		/*double DX, double DY, int OutputViscousFlag,
-		double Tau0, double TauFS,
-		int XH, int XL, int YH, int YL, double dTau*/ )
+		Group & groupEvent, double DX, double DY,
+		int OutputViscousFlag, double Tau0, double TauFS,
+		int XH, int XL, int YH, int YL, double dTau )
 {
 	//double DX = 0.1;
 	//const int RANK = 1;
@@ -43,12 +49,44 @@ void output_attributes(
 	//Attribute att = groupEvent.createAttribute("DX", PredType::NATIVE_DOUBLE, dspace );
 	//att.write(PredType::NATIVE_DOUBLE, &DX);
 
-	output_attribute(groupEvent);
+	output_double_attribute( groupEvent, DX, "DX" );
+	output_double_attribute( groupEvent, DY, "DY" );
+	output_int_attribute(    groupEvent, OutputViscousFlag, "OutputViscousFlag" );
+	output_double_attribute( groupEvent, Tau0, "Tau0" );
+	output_double_attribute( groupEvent, TauFS, "TauFS" );
+	output_int_attribute(    groupEvent, XH, "XH" );
+	output_int_attribute(    groupEvent, XL, "XL" );
+	output_int_attribute(    groupEvent, YH, "YH" );
+	output_int_attribute(    groupEvent, YL, "YL" );
+	output_double_attribute( groupEvent, dTau, "dTau" );
 
 	return;
 }
 
-void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfilename )
+void output_dataset(H5File & file, vector<vector<double> > & v)
+{
+	const int NX = v.size();
+	const int NY = (v[0]).size();
+
+	double data[NX][NY];
+	for (int ix = 0; ix < NX; ix++)
+	for (int iy = 0; iy < NY; iy++)
+		data[ix][iy] = v[ix][iy];
+
+	Group groupFrame(file.createGroup("/Event/Frame_0000"));
+	hsize_t dims[2];
+	dims[0] = NX;
+	dims[1] = NY;
+	DataSpace dataspace(2, dims);
+
+	DataSet dataset = groupFrame.createDataSet("/Event/Frame_0000/hydroCheck",
+												PredType::NATIVE_DOUBLE, dataspace);
+		
+	dataset.write(data, PredType::NATIVE_DOUBLE);
+	return;
+}
+
+/*void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfilename )
 {
 	const H5std_string	FILE_NAME(outfilename.c_str());
 	const int	 NX = v.size();
@@ -101,7 +139,7 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 		error.printError();
 		return;
     }
-}
+}*/
 
 
 #endif

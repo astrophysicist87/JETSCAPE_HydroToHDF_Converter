@@ -145,7 +145,7 @@ void interpolate_hydro_driver(
 	{
 		outputGrid[idx][0] = xGrid[ix];
 		outputGrid[idx][1] = yGrid[iy];
-		//interpolate( points, outputGrid[idx] );
+		interpolate( points, outputGrid[idx] );
 		idx++;
 	}
 
