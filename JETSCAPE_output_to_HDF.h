@@ -63,7 +63,7 @@ void output_attributes(
 	return;
 }
 
-void output_dataset(H5File & file, vector<vector<double> > & v)
+void output_dataset(H5File & file, vector<vector<double> > & v, string FRAME_NAME)
 {
 	const int NX = v.size();
 	const int NY = (v[0]).size();
@@ -73,13 +73,14 @@ void output_dataset(H5File & file, vector<vector<double> > & v)
 	for (int iy = 0; iy < NY; iy++)
 		data[ix][iy] = v[ix][iy];
 
-	Group groupFrame(file.createGroup("/Event/Frame_0000"));
+	Group groupFrame(file.createGroup(FRAME_NAME.c_str()));
 	hsize_t dims[2];
 	dims[0] = NX;
 	dims[1] = NY;
 	DataSpace dataspace(2, dims);
 
-	DataSet dataset = groupFrame.createDataSet("/Event/Frame_0000/hydroCheck",
+	string DATASET_NAME = FRAME_NAME + "/hydroCheck";
+	DataSet dataset = groupFrame.createDataSet( DATASET_NAME.c_str(),
 												PredType::NATIVE_DOUBLE, dataspace);
 		
 	dataset.write(data, PredType::NATIVE_DOUBLE);
@@ -141,5 +142,11 @@ void output_dataset(H5File & file, vector<vector<double> > & v)
     }
 }*/
 
+string get_zero_padded_int( int i, int width )
+{
+	std::ostringstream ss;
+    ss << std::setw( width ) << std::setfill( '0' ) << i;
+    return ss.str();
+}
 
 #endif

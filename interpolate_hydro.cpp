@@ -42,6 +42,7 @@ int main(int argc, char ** argv)
 
 	// set up HDF5 stuff
 	const H5std_string FILE_NAME("output.h5");
+	string GROUPEVENT_NAME = "/Event";
 	const double DX = dx, DY = dy, Tau0 = 0.048, TauFS = 1.2, dTau = 0.072;
 	const int OutputViscousFlag = 1, XH = 53, XL = -53, YH = 53, YL = -53;
 
@@ -49,27 +50,37 @@ int main(int argc, char ** argv)
     {
 		Exception::dontPrint();
 	
+		//----------------------------------------------------------------------
+		// set up HDF file and required attributes
 		H5File file(FILE_NAME, H5F_ACC_TRUNC);
-		Group groupEvent(file.createGroup("/Event"));
+		Group groupEvent(file.createGroup(GROUPEVENT_NAME.c_str()));
 		output_attributes( groupEvent, DX, DY, OutputViscousFlag, Tau0, TauFS,
 							XH, XL, YH, YL, dTau );
 
-		// eventually loop over files and read in one at a time
+		//----------------------------------------------------------------------
+		// loop over files and read in one at a time
+		for (int iArg = 1; iArg < argc; iArg++)
 		{
+			//------------------------------------------------------------------
 			// set filename and load data
-			string filename = argv[1];
+			string filename = argv[iArg];
 			
+			//------------------------------------------------------------------
 			// outputGrid contains data from filename, interpolated to grid
 			// defined by xGrid (x) yGrid
 			vector<vector<double> > outputGrid;
 			interpolate_hydro_driver( filename, outputGrid, xGrid, yGrid );		
 
+			//------------------------------------------------------------------
 			// send outputGrid to HDF file
-			output_dataset( file, outputGrid );
+			const int width = 4;
+			string FRAME_NAME = GROUPEVENT_NAME + "/Frame_" + get_zero_padded_int( iArg-1, width );
+			output_dataset( file, outputGrid, FRAME_NAME );
 		}
 
 	}
 
+	// catch any errors
     catch(FileIException error)
     {
 		error.printError();
