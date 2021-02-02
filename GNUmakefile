@@ -1,7 +1,7 @@
 # ==============================================================================
 #  Purpose: Makefile for hydrodynamic interpolation and HDF converter
 #  Author:  Christopher Plumberg
-#  Date:    January 19, 2021
+#  Date:    February 2, 2021
 # ==============================================================================
 ##
 ##  Environments :	MAIN	= 	main sourcefile	
@@ -69,7 +69,7 @@ distclean:
 		-rm $(TARGET2)
 
 # --------------- Dependencies -------------------
-interpolate_hydro.cpp:             interpolate_hydro.h output.h JETSCAPE_output_to_HDF.h
+interpolate_hydro.cpp:             interpolate_hydro.h JETSCAPE_output_to_HDF.h
 interpolate_hydro_delaunay.cpp:    interpolate_hydro_delaunay.h output.h \
                                    delaunay/table_delaunay.h
 delaunay/table_delaunay.cpp:       delaunay/table_delaunay.h
