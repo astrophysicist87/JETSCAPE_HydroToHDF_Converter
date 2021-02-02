@@ -108,13 +108,10 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 
 		Group groupEvent(file.createGroup("/EVENT"));
 
-
 		double DX = 0.1;
 		DataSpace dspace(H5S_SIMPLE);
 		Attribute att = groupEvent.createAttribute("DX", PredType::NATIVE_DOUBLE, dspace );
 		att.write(PredType::NATIVE_DOUBLE, &DX);
-
-		//DataSpace dspace(H5S_SCALAR);
 
 		/*ATTRIBUTE "DX" {
          DATATYPE  H5T_IEEE_F64LE
