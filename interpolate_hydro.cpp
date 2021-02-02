@@ -41,7 +41,7 @@ int main(int argc, char ** argv)
 	generate(yGrid.begin(), yGrid.end(), [n = 0, &ymin, &dy] () mutable { return ymin + dy * n++; });
 
 	// set up HDF5 stuff
-	const H5std_string	FILE_NAME(filename.c_str());
+	const H5std_string	FILE_NAME("output.h5");
 	const int	 NX = xGridSize*yGridSize;
 	const int	 NY = 6;
 
@@ -49,8 +49,7 @@ int main(int argc, char ** argv)
     {
 		Exception::dontPrint();
 	
-		//H5File file(FILE_NAME, H5F_ACC_TRUNC);
-		H5File file("output.h5", H5F_ACC_TRUNC);
+		H5File file(FILE_NAME, H5F_ACC_TRUNC);
 		Group groupEvent(file.createGroup("/Event"));
 		output_attributes( groupEvent );	// add attributes later
 
@@ -71,7 +70,7 @@ int main(int argc, char ** argv)
 			hsize_t dims[2];
 			dims[0] = NX;
 			dims[1] = NY;
-			DataSpace dataspace(2, loc_dims);
+			DataSpace dataspace(2, dims);
 		
 			DataSet dataset = groupFrame.createDataSet("/Event/Frame_0000/hydroCheck",
 														PredType::NATIVE_DOUBLE, dataspace);
@@ -80,6 +79,24 @@ int main(int argc, char ** argv)
 		}
 
 	}
+
+    catch(FileIException error)
+    {
+		error.printError();
+		return;
+    }
+
+    catch(DataSetIException error)
+    {
+		error.printError();
+		return;
+    }
+
+    catch(DataSpaceIException error)
+    {
+		error.printError();
+		return;
+    }
 
 	return 0;
 }
