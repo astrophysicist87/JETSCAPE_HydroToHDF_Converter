@@ -26,7 +26,7 @@ void output_double_attribute(Group & groupEvent, double value, string name)
 	return;
 }
 
-void output_int_attribute(Group & groupEvent, double value, string name)
+void output_int_attribute(Group & groupEvent, int value, string name)
 {
 	hsize_t dims[1]; dims[0] = 1;
 	DataSpace dspace(1, dims);
