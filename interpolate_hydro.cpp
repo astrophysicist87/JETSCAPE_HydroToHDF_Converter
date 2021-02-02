@@ -27,7 +27,7 @@ int main(int argc, char ** argv)
 	if ( argc < 2 )
 	{
 		cerr << "Usage: ./interpolate_hydro [files to interpolate]" << endl;
-		cerr << "E.g.:  ./interpolate_hydro /path/to/results/sveprofile_{0..582}_ev0.dat" << endl;
+		cerr << "E.g.:  ./interpolate_hydro /path/to/results/sveprofile_{1..255}_ev0.dat" << endl;
 		return (8);
 	}
 
@@ -44,7 +44,9 @@ int main(int argc, char ** argv)
 	const H5std_string FILE_NAME("output.h5");
 	string GROUPEVENT_NAME = "/Event";
 	const double DX = dx, DY = dy, Tau0 = 0.048, TauFS = 1.2, dTau = 0.072;
-	const int OutputViscousFlag = 1, XH = 53, XL = -53, YH = 53, YL = -53;
+	const int OutputViscousFlag = 1,
+			  XH = (xGridSize-1)/2, XL = -(xGridSize-1)/2,
+			  YH = (yGridSize-1)/2, YL = -(yGridSize-1)/2;
 
 	try
     {
@@ -74,8 +76,10 @@ int main(int argc, char ** argv)
 			//------------------------------------------------------------------
 			// send outputGrid to HDF file
 			const int width = 4;
-			string FRAME_NAME = GROUPEVENT_NAME + "/Frame_" + get_zero_padded_int( iArg-1, width );
-			output_dataset( file, outputGrid, FRAME_NAME );
+			string FRAME_NAME = GROUPEVENT_NAME + "/Frame_"
+								+ get_zero_padded_int( iArg-1, width );
+			output_dataset( file, FRAME_NAME, Tau0 + dTau*(iArg-1.0),
+							outputGrid, xGridSize, yGridSize, 6 );
 		}
 
 	}

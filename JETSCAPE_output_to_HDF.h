@@ -16,137 +16,95 @@
     using namespace H5;
 #endif
 
-void output_double_attribute(Group & groupEvent, double value, string name)
-{
-	hsize_t dims[1]; dims[0] = 1;
-	DataSpace dspace(1, dims);
-	Attribute att = groupEvent.createAttribute(name.c_str(), PredType::NATIVE_DOUBLE, dspace );
-	att.write(PredType::NATIVE_DOUBLE, &value);
-
-	return;
-}
-
-void output_int_attribute(Group & groupEvent, int value, string name)
-{
-	hsize_t dims[1]; dims[0] = 1;
-	DataSpace dspace(1, dims);
-	Attribute att = groupEvent.createAttribute(name.c_str(), PredType::NATIVE_INT, dspace );
-	att.write(PredType::NATIVE_INT, &value);
-
-	return;
-}
-
-void output_attributes(
-		Group & groupEvent, double DX, double DY,
-		int OutputViscousFlag, double Tau0, double TauFS,
-		int XH, int XL, int YH, int YL, double dTau )
-{
-	//double DX = 0.1;
-	//const int RANK = 1;
-	//hsize_t dims[RANK];
-	//dims[0] = 1;
-	//DataSpace dspace(RANK, dims);
-	//Attribute att = groupEvent.createAttribute("DX", PredType::NATIVE_DOUBLE, dspace );
-	//att.write(PredType::NATIVE_DOUBLE, &DX);
-
-	output_double_attribute( groupEvent, DX, "DX" );
-	output_double_attribute( groupEvent, DY, "DY" );
-	output_int_attribute(    groupEvent, OutputViscousFlag, "OutputViscousFlag" );
-	output_double_attribute( groupEvent, Tau0, "Tau0" );
-	output_double_attribute( groupEvent, TauFS, "TauFS" );
-	output_int_attribute(    groupEvent, XH, "XH" );
-	output_int_attribute(    groupEvent, XL, "XL" );
-	output_int_attribute(    groupEvent, YH, "YH" );
-	output_int_attribute(    groupEvent, YL, "YL" );
-	output_double_attribute( groupEvent, dTau, "dTau" );
-
-	return;
-}
-
-void output_dataset(H5File & file, vector<vector<double> > & v, string FRAME_NAME)
-{
-	const int NX = v.size();
-	const int NY = (v[0]).size();
-
-	double data[NX][NY];
-	for (int ix = 0; ix < NX; ix++)
-	for (int iy = 0; iy < NY; iy++)
-		data[ix][iy] = v[ix][iy];
-
-	Group groupFrame(file.createGroup(FRAME_NAME.c_str()));
-	hsize_t dims[2];
-	dims[0] = NX;
-	dims[1] = NY;
-	DataSpace dataspace(2, dims);
-
-	string DATASET_NAME = FRAME_NAME + "/hydroCheck";
-	DataSet dataset = groupFrame.createDataSet( DATASET_NAME.c_str(),
-												PredType::NATIVE_DOUBLE, dataspace);
-		
-	dataset.write(data, PredType::NATIVE_DOUBLE);
-	return;
-}
-
-/*void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfilename )
-{
-	const H5std_string	FILE_NAME(outfilename.c_str());
-	const int	 NX = v.size();
-	const int	 NY = (v[0]).size();
-	const int	 RANK = 2;
-
-	double data[NX][NY];
-	for (int ix = 0; ix < NX; ix++)
-	for (int iy = 0; iy < NY; iy++)
-		data[ix][iy] = v[ix][iy];
-
-    try
-    {
-		Exception::dontPrint();
-	
-		H5File file(FILE_NAME, H5F_ACC_TRUNC);
-
-		Group groupEvent(file.createGroup("/Event"));
-
-		output_attributes( groupEvent );
-
-		{	
-			Group groupFrame(file.createGroup("/Event/Frame_0000"));
-			hsize_t loc_dims[2];
-			loc_dims[0] = NX;
-			loc_dims[1] = NY;
-			DataSpace dataspace(2, loc_dims);
-		
-			DataSet dataset = groupFrame.createDataSet("/Event/Frame_0000/hydro",
-														PredType::NATIVE_DOUBLE, dataspace);
-				
-			dataset.write(data, PredType::NATIVE_DOUBLE);
-		}
-    }
-
-    catch(FileIException error)
-    {
-		error.printError();
-		return;
-    }
-
-    catch(DataSetIException error)
-    {
-		error.printError();
-		return;
-    }
-
-    catch(DataSpaceIException error)
-    {
-		error.printError();
-		return;
-    }
-}*/
-
+//==============================================================================
+//==============================================================================
 string get_zero_padded_int( int i, int width )
 {
 	std::ostringstream ss;
     ss << std::setw( width ) << std::setfill( '0' ) << i;
     return ss.str();
+}
+
+//==============================================================================
+//==============================================================================
+void output_double_attribute(Group & group, double value, string name)
+{
+	hsize_t dims[1]; dims[0] = 1;
+	DataSpace dspace(1, dims);
+	Attribute att = group.createAttribute(name.c_str(), PredType::NATIVE_DOUBLE, dspace );
+	att.write(PredType::NATIVE_DOUBLE, &value);
+
+	return;
+}
+
+//==============================================================================
+//==============================================================================
+void output_int_attribute(Group & group, int value, string name)
+{
+	hsize_t dims[1]; dims[0] = 1;
+	DataSpace dspace(1, dims);
+	Attribute att = group.createAttribute(name.c_str(), PredType::NATIVE_INT, dspace );
+	att.write(PredType::NATIVE_INT, &value);
+
+	return;
+}
+
+//==============================================================================
+//==============================================================================
+void output_attributes(
+		Group & groupEvent, double DX, double DY,
+		int OutputViscousFlag, double Tau0, double TauFS,
+		int XH, int XL, int YH, int YL, double dTau )
+{
+	output_double_attribute( groupEvent, DX,                "DX"                );
+	output_double_attribute( groupEvent, DY,                "DY"                );
+	output_int_attribute(    groupEvent, OutputViscousFlag, "OutputViscousFlag" );
+	output_double_attribute( groupEvent, Tau0,              "Tau0"              );
+	output_double_attribute( groupEvent, TauFS,             "TauFS"             );
+	output_int_attribute(    groupEvent, XH,                "XH"                );
+	output_int_attribute(    groupEvent, XL,                "XL"                );
+	output_int_attribute(    groupEvent, YH,                "YH"                );
+	output_int_attribute(    groupEvent, YL,                "YL"                );
+	output_double_attribute( groupEvent, dTau,              "dTau"              );
+
+	return;
+}
+
+//==============================================================================
+//==============================================================================
+void output_dataset( H5File & file, string FRAME_NAME, const double time, 
+					 vector<vector<double> > & v, const int NX, const int NY, const int NZ)
+{
+	// NX, NY are grid sizes in x and y directions, respectively
+	// NZ is the number of quantities being interpolated, with x and y coordinates
+	// (i.e., for x, y, T, e, ux, and uy, NZ == 6)
+	double data[NZ-2][NX][NY];
+	for (int ix = 0; ix < NX; ix++)
+	for (int iy = 0; iy < NY; iy++)
+	for (int iz = 2; iz < NZ; iz++)	// skip x and y coordinates
+		data[iz-2][ix][iy] = v[ix*NY+iy][iz];
+
+	Group groupFrame(file.createGroup(FRAME_NAME.c_str()));
+
+	// some frames apparently come with a timestamp(?)
+	output_double_attribute( groupFrame, time, "Time" );
+
+	// name the different quantities
+	vector<string> dataset_names = {"/e", "/Temp", "/ux", "/uy"};
+	for (int iDS = 0; iDS < dataset_names.size(); iDS++)
+	{
+		hsize_t dims[2];
+		dims[0] = NX;
+		dims[1] = NY;
+		DataSpace dataspace(2, dims);
+	
+		string DATASET_NAME = FRAME_NAME + dataset_names[iDS];
+		DataSet dataset = groupFrame.createDataSet( DATASET_NAME.c_str(),
+													PredType::NATIVE_DOUBLE, dataspace);
+			
+		dataset.write(data[iDS], PredType::NATIVE_DOUBLE);
+	}
+	return;
 }
 
 #endif
