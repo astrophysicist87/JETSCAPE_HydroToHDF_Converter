@@ -83,19 +83,19 @@ int main(int argc, char ** argv)
     catch(FileIException error)
     {
 		error.printError();
-		return;
+		return (-1);
     }
 
     catch(DataSetIException error)
     {
 		error.printError();
-		return;
+		return (-1);
     }
 
     catch(DataSpaceIException error)
     {
 		error.printError();
-		return;
+		return (-1);
     }
 
 	return 0;
