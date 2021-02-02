@@ -81,4 +81,66 @@ void output_to_HDF( const vector<vector<double> > & v, string outfilename )
 }
 
 
+void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfilename )
+{
+	const H5std_string	FILE_NAME(outfilename.c_str());
+	const H5std_string	DATASET_NAME("hydro");
+	const int	 NX = v.size();
+	const int	 NY = (v[0]).size();
+	const int	 RANK = 2;
+
+	double data[NX][NY];
+	for (int ix = 0; ix < NX; ix++)
+	for (int iy = 0; iy < NY; iy++)
+		data[ix][iy] = v[ix][iy];
+
+    try
+    {
+		Exception::dontPrint();
+	
+		H5File file(FILE_NAME, H5F_ACC_TRUNC);
+	
+    	Group group = file.createGroup( "/" );
+    	Group eventGroup = file.createGroup( "EVENT" );
+
+		double DX = 0.1;
+		DataSpace dspace(H5T_IEEE_F64LE);
+		Attribute att = eventGroup.createAttribute("DX", PredType::NATIVE_DOUBLE, dspace);
+		att.write(PredType::NATIVE_DOUBLE, &value);
+		/*ATTRIBUTE "DX" {
+         DATATYPE  H5T_IEEE_F64LE
+         DATASPACE  SIMPLE { ( 1 ) / ( 1 ) }
+         DATA {
+         (0): 0.288
+         }*/
+		/*hsize_t dims[2];
+		dims[0] = NX;
+		dims[1] = NY;
+		DataSpace dataspace(RANK, dims);
+	
+		DataSet dataset = file.createDataSet(DATASET_NAME, PredType::NATIVE_DOUBLE, dataspace);
+			
+		dataset.write(data, PredType::NATIVE_DOUBLE);*/
+    }
+
+    catch(FileIException error)
+    {
+		error.printError();
+		return;
+    }
+
+    catch(DataSetIException error)
+    {
+		error.printError();
+		return;
+    }
+
+    catch(DataSpaceIException error)
+    {
+		error.printError();
+		return;
+    }
+}
+
+
 #endif
