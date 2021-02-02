@@ -102,12 +102,12 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 	
     	//Group group = file.createGroup( "/" );
     	//Group eventGroup = file.createGroup( "/EVENT" );
-    	//Group* group = new Group( file.createGroup( "/" ) );
-    	Group* eventGroup = new Group( file.createGroup( "/EVENT" ) );
+    	Group* group = new Group( file.createGroup( "/" ) );
+    	//Group* eventGroup = new Group( file.createGroup( "/EVENT" ) );
 
 		double DX = 0.1;
 		DataSpace dspace(H5T_IEEE_F64LE);
-		Attribute* att = new Attribute( eventGroup->createAttribute("DX", PredType::NATIVE_DOUBLE, dspace ) );
+		Attribute* att = new Attribute( group->createAttribute("DX", PredType::NATIVE_DOUBLE, dspace ) );
 		att->write(PredType::NATIVE_DOUBLE, &DX);
 		/*ATTRIBUTE "DX" {
          DATATYPE  H5T_IEEE_F64LE
