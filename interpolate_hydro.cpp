@@ -26,8 +26,8 @@ int main(int argc, char ** argv)
 {
 	if ( argc < 2 )
 	{
-		cerr << "Usage: ./interpolate_hydro [files to interpolate]
-		cerr << "E.g.:  ./interpolate_hydro /path/to/results/sveprofile_{0..582}_ev0.dat
+		cerr << "Usage: ./interpolate_hydro [files to interpolate]" << endl;
+		cerr << "E.g.:  ./interpolate_hydro /path/to/results/sveprofile_{0..582}_ev0.dat" << endl;
 		return (8);
 	}
 
