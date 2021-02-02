@@ -104,7 +104,7 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 
 		Group groupEvent(file.createGroup("/Event"));
 
-		//double DX = 0.1;
+		double DX = 0.1;
 		const int RANK = 1;
 		hsize_t dims[RANK];
 		dims[0] = 1;
