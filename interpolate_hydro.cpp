@@ -33,9 +33,9 @@ int main(int argc, char ** argv)
 
 	// set grid for interpolation
 	//cout << endl << " - Generating grid for interpolation" << endl;
-	const double xmin = -10.0, ymin = -10.0;
-	const double dx = 1.0, dy = 1.0;
-	const int xGridSize = 21, yGridSize = 21;
+	const double dx = 0.288, dy = 0.288;
+	const int xGridSize = 107, yGridSize = 107;
+	const double xmin = -dx*(xGridSize-1.0)/2.0, ymin = -dy*(yGridSize-1.0)/2.0;
 	vector<double> xGrid(xGridSize), yGrid(yGridSize);
 	generate(xGrid.begin(), xGrid.end(), [n = 0, &xmin, &dx] () mutable { return xmin + dx * n++; });
 	generate(yGrid.begin(), yGrid.end(), [n = 0, &ymin, &dy] () mutable { return ymin + dy * n++; });
