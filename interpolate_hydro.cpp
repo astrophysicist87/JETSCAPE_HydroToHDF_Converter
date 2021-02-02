@@ -42,7 +42,7 @@ int main(int argc, char ** argv)
 
 	// set up HDF5 stuff
 	const H5std_string FILE_NAME("output.h5");
-	const double DX = dx, DY = dy, tau = 0.048, tauFS = 1.2, dTau = 0.072;
+	const double DX = dx, DY = dy, Tau0 = 0.048, tauFS = 1.2, dTau = 0.072;
 	const int OutputViscousFlag = 1, XH = 53, XL = -53, YH = 53, YL = -53;
 
 	try
