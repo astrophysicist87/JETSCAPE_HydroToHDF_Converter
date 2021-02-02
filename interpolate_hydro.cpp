@@ -24,37 +24,15 @@ using namespace std;
 
 int main(int argc, char ** argv)
 {
-	// make sure at least a filename was passed
-	//assert( argc > 1 );
-
 	if ( argc < 2 )
 	{
-		cout << "// No command line argument passed --> running in test mode" << endl;
-		vector<vector<double> > points;
-		read_in_data(points, "backup_code/data8_ev1.dat", 1);
-		vector<double> testPoint (6);
-		testPoint[0] = 0.504858;
-		testPoint[1] = 6.58063;
-		interpolate( points, testPoint );
-		cout << "Results: ";
-		for ( const auto & c : testPoint ) cout << c << "   ";
-		cout << endl;
-		return 0;
+		cerr << "Usage: ./interpolate_hydro [files to interpolate]
+		cerr << "E.g.:  ./interpolate_hydro /path/to/results/sveprofile_{0..582}_ev0.dat
+		return (8);
 	}
 
-	cout << "////////////////////////////////////////////////////////////////////" << endl;
-	cout << "// Conversion and interpolation of v-USPhydro files to HDF format //" << endl;
-	cout << "////////////////////////////////////////////////////////////////////" << endl;
-
-	// set filename and load data
-	string filename = argv[1];
-
-	cout << endl << " - Reading in data from " << filename << endl;
-	vector<vector<double> > points;
-	read_in_data(points, filename, 1);
-
 	// set grid for interpolation
-	cout << endl << " - Generating grid for interpolation" << endl;
+	//cout << endl << " - Generating grid for interpolation" << endl;
 	const double xmin = -10.0, ymin = -10.0;
 	const double dx = 0.1, dy = 0.1;
 	const int xGridSize = 201, yGridSize = 201;
@@ -62,27 +40,46 @@ int main(int argc, char ** argv)
 	generate(xGrid.begin(), xGrid.end(), [n = 0, &xmin, &dx] () mutable { return xmin + dx * n++; });
 	generate(yGrid.begin(), yGrid.end(), [n = 0, &ymin, &dy] () mutable { return ymin + dy * n++; });
 
-	// set up output grid and do the interpolation
-	cout << endl << " - Performing interpolation" << endl;
-	vector<vector<double> > outputGrid( xGridSize*yGridSize, vector<double> ( 6 ) );
-	int idx = 0;
-	for ( int ix = 0; ix < xGridSize; ix++ )
-	for ( int iy = 0; iy < yGridSize; iy++ )
-	{
-		outputGrid[idx][0] = xGrid[ix];
-		outputGrid[idx][1] = yGrid[iy];
-		//interpolate( points, outputGrid[idx] );
-		idx++;
+	// set up HDF5 stuff
+	const H5std_string	FILE_NAME(filename.c_str());
+	const int	 NX = xGridSize*yGridSize;
+	const int	 NY = 6;
+
+	try
+    {
+		Exception::dontPrint();
+	
+		//H5File file(FILE_NAME, H5F_ACC_TRUNC);
+		H5File file("output.h5", H5F_ACC_TRUNC);
+		Group groupEvent(file.createGroup("/Event"));
+		output_attributes( groupEvent );	// add attributes later
+
+		// eventually loop over files and read in one at a time
+		{
+			// set filename and load data
+			string filename = argv[1];
+			
+			vector<vector<double> > outputGrid;
+			interpolate_hydro_driver( filename, outputGrid, xGrid, yGrid );		
+
+			double data[NX][NY];
+			for (int ix = 0; ix < NX; ix++)
+			for (int iy = 0; iy < NY; iy++)
+				data[ix][iy] = outputGrid[ix][iy];
+
+			Group groupFrame(file.createGroup("/Event/Frame_0000"));
+			hsize_t dims[2];
+			dims[0] = NX;
+			dims[1] = NY;
+			DataSpace dataspace(2, loc_dims);
+		
+			DataSet dataset = groupFrame.createDataSet("/Event/Frame_0000/hydroCheck",
+														PredType::NATIVE_DOUBLE, dataspace);
+				
+			dataset.write(data, PredType::NATIVE_DOUBLE);
+		}
+
 	}
 
-	// output to both dat and HDF files...
-	cout << endl << " - Outputting to *.dat file" << endl;
-	output_to_dat( outputGrid, "output.dat" );
-
-	cout << endl << " - Outputting to *.hdf file" << endl;
-	//output_to_HDF( outputGrid, "output.h5" );
-	output_to_HDF_for_JETSCAPE( outputGrid, "output.h5" );
-
-	cout << endl << " - Finished everything!" << endl;
 	return 0;
 }

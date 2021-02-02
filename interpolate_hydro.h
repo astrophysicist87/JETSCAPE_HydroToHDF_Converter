@@ -125,4 +125,31 @@ void interpolate(vector<vector<double> > & points, vector<double> & outPoint)
 	return;
 }
 
+void interpolate_hydro_driver(
+		string filename, vector<vector<double> > & outputGrid,
+		const vector<double> & xGrid, const vector<double> & yGrid, bool verbose = false )
+{
+	if (verbose) cout << endl << " - Reading in data from " << filename << endl;
+	vector<vector<double> > points;
+	read_in_data(points, filename, 1);
+
+	const int xGridSize = xGrid.size();
+	const int yGridSize = yGrid.size();
+	
+	// set up output grid and do the interpolation
+	if (verbose) cout << endl << " - Performing interpolation" << endl;
+	outputGrid = vector<vector<double> >( xGridSize*yGridSize, vector<double> ( 6 ) );
+	int idx = 0;
+	for ( int ix = 0; ix < xGridSize; ix++ )
+	for ( int iy = 0; iy < yGridSize; iy++ )
+	{
+		outputGrid[idx][0] = xGrid[ix];
+		outputGrid[idx][1] = yGrid[iy];
+		//interpolate( points, outputGrid[idx] );
+		idx++;
+	}
+
+	return;
+}
+
 #endif
