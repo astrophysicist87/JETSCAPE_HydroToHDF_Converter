@@ -34,7 +34,8 @@ int main(int argc, char ** argv)
 	// set grid for interpolation
 	//cout << endl << " - Generating grid for interpolation" << endl;
 	const double dx = 0.288, dy = 0.288;
-	const int xGridSize = 107, yGridSize = 107;
+	//const int xGridSize = 107, yGridSize = 107;
+	const int xGridSize = 5, yGridSize = 5;
 	const double xmin = -dx*(xGridSize-1.0)/2.0, ymin = -dy*(yGridSize-1.0)/2.0;
 	vector<double> xGrid(xGridSize), yGrid(yGridSize);
 	generate(xGrid.begin(), xGrid.end(), [n = 0, &xmin, &dx] () mutable { return xmin + dx * n++; });
@@ -66,6 +67,7 @@ int main(int argc, char ** argv)
 			//------------------------------------------------------------------
 			// set filename and load data
 			string filename = argv[iArg];
+			cout << " - Reading in " << filename << endl;
 			
 			//------------------------------------------------------------------
 			// outputGrid contains data from filename, interpolated to grid
@@ -80,6 +82,8 @@ int main(int argc, char ** argv)
 								+ get_zero_padded_int( iArg-1, width );
 			output_dataset( file, FRAME_NAME, Tau0 + dTau*(iArg-1.0),
 							outputGrid, xGridSize, yGridSize, 6 );
+
+			//cout << " - Finished interpolating " << filename << endl;
 		}
 
 	}
