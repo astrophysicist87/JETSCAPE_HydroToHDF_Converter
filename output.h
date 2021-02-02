@@ -94,9 +94,9 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 	for (int iy = 0; iy < NY; iy++)
 		data[ix][iy] = v[ix][iy];
 
-    /*try
-    {*/
-		//Exception::dontPrint();
+    try
+    {
+		Exception::dontPrint();
 	
 		H5File file(FILE_NAME, H5F_ACC_TRUNC);
 		//H5File* file = new H5File(FILE_NAME, H5F_ACC_TRUNC);
@@ -109,10 +109,10 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 		Group groupEvent(file.createGroup("/EVENT"));
 
 		double DX = 0.1;
-		const int RANK = 1;
-		hsize_t dims[RANK];
-		dims[0] = 1;
-		DataSpace dspace(RANK, dims, H5S_SIMPLE);
+		//const int RANK = 1;
+		//hsize_t dims[RANK];
+		//dims[0] = 1;
+		DataSpace dspace(H5S_SCALAR);
 		Attribute att = groupEvent.createAttribute("DX", PredType::NATIVE_DOUBLE, dspace );
 		att.write(PredType::NATIVE_DOUBLE, &DX);
 
@@ -132,7 +132,7 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 		DataSet dataset = file.createDataSet(DATASET_NAME, PredType::NATIVE_DOUBLE, dataspace);
 			
 		dataset.write(data, PredType::NATIVE_DOUBLE);*/	
-    /*}
+    }
 
     catch(FileIException error)
     {
@@ -150,7 +150,7 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
     {
 		error.printError();
 		return;
-    }*/
+    }
 }
 
 
