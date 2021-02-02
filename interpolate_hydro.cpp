@@ -70,7 +70,7 @@ int main(int argc, char ** argv)
 	{
 		outputGrid[idx][0] = xGrid[ix];
 		outputGrid[idx][1] = yGrid[iy];
-		interpolate( points, outputGrid[idx] );
+		//interpolate( points, outputGrid[idx] );
 		idx++;
 	}
 
@@ -79,7 +79,8 @@ int main(int argc, char ** argv)
 	output_to_dat( outputGrid, "output.dat" );
 
 	cout << endl << " - Outputting to *.hdf file" << endl;
-	output_to_HDF( outputGrid, "output.h5" );
+	//output_to_HDF( outputGrid, "output.h5" );
+	output_to_HDF_for_JETSCAPE( outputGrid, "output.h5" );
 
 	cout << endl << " - Finished everything!" << endl;
 	return 0;
