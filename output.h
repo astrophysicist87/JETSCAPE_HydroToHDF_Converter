@@ -102,7 +102,7 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 	
     	//Group group = file.createGroup( "/" );
     	//Group eventGroup = file.createGroup( "/EVENT" );
-    	Group* group = new Group( file.createGroup( "/" ) );
+    	//Group* group = new Group( file.createGroup( "/" ) );
     	Group* eventGroup = new Group( file.createGroup( "/EVENT" ) );
 
 		double DX = 0.1;
