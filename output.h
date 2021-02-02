@@ -94,9 +94,9 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 	for (int iy = 0; iy < NY; iy++)
 		data[ix][iy] = v[ix][iy];
 
-    try
-    {
-		Exception::dontPrint();
+    /*try
+    {*/
+		//Exception::dontPrint();
 	
 		H5File file(FILE_NAME, H5F_ACC_TRUNC);
 		//H5File* file = new H5File(FILE_NAME, H5F_ACC_TRUNC);
@@ -127,7 +127,7 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
 		DataSet dataset = file.createDataSet(DATASET_NAME, PredType::NATIVE_DOUBLE, dataspace);
 			
 		dataset.write(data, PredType::NATIVE_DOUBLE);*/	
-    }
+    /*}
 
     catch(FileIException error)
     {
@@ -145,7 +145,7 @@ void output_to_HDF_for_JETSCAPE( const vector<vector<double> > & v, string outfi
     {
 		error.printError();
 		return;
-    }
+    }*/
 }
 
 
