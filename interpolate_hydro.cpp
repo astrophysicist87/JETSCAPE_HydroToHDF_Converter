@@ -72,7 +72,8 @@ int main(int argc, char ** argv)
 			// outputGrid contains data from filename, interpolated to grid
 			// defined by xGrid (x) yGrid
 			vector<vector<double> > outputGrid;
-			interpolate_hydro_driver( filename, outputGrid, xGrid, yGrid );		
+			const int interpolation_mode = 0;	// Steven's interpolation routine
+			interpolate_hydro_driver( filename, outputGrid, xGrid, yGrid, interpolation_mode );		
 
 			//------------------------------------------------------------------
 			// send outputGrid to HDF file

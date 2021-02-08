@@ -1,3 +1,4 @@
+// Adapted from https://people.math.sc.edu/Burkardt/cpp_src/table_delaunay/table_delaunay.cpp
 #include <cstdlib>
 #include <iostream>
 #include <iomanip>
