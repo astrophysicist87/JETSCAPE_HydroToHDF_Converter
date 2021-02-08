@@ -31,11 +31,13 @@ SYSTEMFILES =   $(SRCGNU)
 MAIN		 =	interpolate_hydro
 MAIN2		 =	interpolate_hydro_delaunay
 
-MAINSRC      =  interpolate_hydro.cpp
+MAINSRC      =  interpolate_hydro.cpp \
+				delaunay/table_delaunay.cpp
 MAINSRC2     =  interpolate_hydro_delaunay.cpp \
 				delaunay/table_delaunay.cpp
 
 INC			 = 	interpolate_hydro.h \
+				delaunay/table_delaunay.h \
 				output.h \
 				JETSCAPE_output_to_HDF.h
 INC2		 = 	interpolate_hydro_delaunay.h \
@@ -69,7 +71,8 @@ distclean:
 		-rm $(TARGET2)
 
 # --------------- Dependencies -------------------
-interpolate_hydro.cpp:             interpolate_hydro.h JETSCAPE_output_to_HDF.h
+interpolate_hydro.cpp:             interpolate_hydro.h JETSCAPE_output_to_HDF.h \
+                                   delaunay/table_delaunay.h
 interpolate_hydro_delaunay.cpp:    interpolate_hydro_delaunay.h output.h \
                                    delaunay/table_delaunay.h
 delaunay/table_delaunay.cpp:       delaunay/table_delaunay.h
